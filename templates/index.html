@@ -15,7 +15,7 @@
         .header {
             background: linear-gradient(135deg, #0f1629 0%, #1a1f3a 100%);
             border-bottom: 1px solid #2a3050;
-            padding: 2rem;
+            padding: 2.5rem 2rem;
             text-align: center;
         }
         .header h1 {
@@ -27,12 +27,11 @@
         }
         .header .slogan {
             color: #94a3b8;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             font-style: italic;
         }
         .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
 
-        /* Seção Problema */
         .section {
             background: #111827;
             border: 1px solid #1f2937;
@@ -43,7 +42,8 @@
         .section h2 {
             color: #60a5fa;
             margin-bottom: 1rem;
-            font-size: 1.4rem;
+            font-size: 1.3rem;
+            font-weight: 600;
         }
         .section p {
             color: #cbd5e1;
@@ -139,6 +139,11 @@
             border-top: 1px solid #1f2937;
             margin-top: 2rem;
         }
+        .footer .last-updated {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: #475569;
+        }
 
         /* Status indicator */
         .status-badge {
@@ -178,7 +183,7 @@
     <div class="container">
         <!-- Identidade do Produto -->
         <section class="section">
-            <h2>🛰️ Sobre o AstraLab</h2>
+            <h2>Sobre o AstraLab</h2>
             <p>
                 O <strong>AstraLab</strong> é uma plataforma integrada para simulação de operações espaciais
                 de coleta, triagem e análise de amostras em ambientes extremos como Lua, Marte e asteroides.
@@ -193,7 +198,7 @@
 
         <!-- Problema Espacial -->
         <section class="section">
-            <h2>⚠️ O Problema Espacial</h2>
+            <h2>O Problema Espacial</h2>
             <p>
                 Em missões espaciais, cada decisão operacional tem alto custo. Um robô explorador possui
                 recursos limitados: bateria, tempo de missão, capacidade de armazenamento e comunicação
@@ -209,7 +214,7 @@
 
         <!-- ODS -->
         <section class="section">
-            <h2>🌍 Conexão com ODS</h2>
+            <h2>Conexão com ODS</h2>
             <div class="ods-grid">
                 <div class="ods-card ods9">
                     <h3>ODS 9 — Indústria, Inovação e Infraestrutura</h3>
@@ -231,7 +236,7 @@
 
         <!-- Dashboard de Missão -->
         <section class="section">
-            <h2>📊 Painel de Controle da Missão</h2>
+            <h2>Painel de Controle da Missão</h2>
             <div class="dashboard-grid" id="dashboard">
                 <div class="metric-card">
                     <div class="value" id="samples-collected">--</div>
@@ -270,33 +275,40 @@
 
         <!-- Arquitetura -->
         <section class="section">
-            <h2>🏗️ Arquitetura do Sistema</h2>
+            <h2>Arquitetura do Sistema</h2>
             <div class="arch-flow">
-                <div class="arch-step">📡 Dados da Missão</div>
+                <div class="arch-step">Dados da Missão</div>
                 <span class="arch-arrow">→</span>
-                <div class="arch-step">👁️ AstraVision<br><small>Classificação Visual</small></div>
+                <div class="arch-step">AstraVision<br><small>Classificação Visual</small></div>
                 <span class="arch-arrow">→</span>
-                <div class="arch-step">🧠 AstraPredict<br><small>Prioridade ML</small></div>
+                <div class="arch-step">AstraPredict<br><small>Prioridade ML</small></div>
                 <span class="arch-arrow">→</span>
-                <div class="arch-step">💾 AstraData<br><small>Pipeline ETL</small></div>
+                <div class="arch-step">AstraData<br><small>Pipeline ETL</small></div>
                 <span class="arch-arrow">→</span>
-                <div class="arch-step">🤖 AstraGrip<br><small>Coleta Robótica</small></div>
+                <div class="arch-step">AstraGrip<br><small>Coleta Robótica</small></div>
                 <span class="arch-arrow">→</span>
-                <div class="arch-step">⚡ AstraBot<br><small>Alertas RPA</small></div>
+                <div class="arch-step">AstraBot<br><small>Alertas RPA</small></div>
                 <span class="arch-arrow">→</span>
-                <div class="arch-step">☁️ AstraCloud<br><small>Dashboard & API</small></div>
+                <div class="arch-step">AstraCloud<br><small>Dashboard & API</small></div>
             </div>
         </section>
 
         <!-- Equipe -->
         <section class="section">
-            <h2>👥 Equipe</h2>
+            <h2>Equipe</h2>
             <div class="team-list">
                 <div class="team-member">
-                    <div class="name">Julia Galvão</div>
-                    <div class="rm">RM: XXXXX</div>
+                    <div class="name">Aline Fernandes Zeppelini</div>
+                    <div class="rm">RM: 97966</div>
                 </div>
-                <!-- Adicione mais integrantes aqui -->
+                <div class="team-member">
+                    <div class="name">Camilly Breitbach Ishida</div>
+                    <div class="rm">RM: 551474</div>
+                </div>
+                <div class="team-member">
+                    <div class="name">Julia Leite Galvão</div>
+                    <div class="rm">RM: 550201</div>
+                </div>
             </div>
         </section>
     </div>
@@ -305,6 +317,7 @@
         AstraCloud · Módulo Cloud & DevOps · AstraLab © 2026<br>
         FIAP — Global Solution — Engenharia de Software 4º Ano<br>
         Hospedado no Microsoft Azure App Service
+        <div class="last-updated">Última atualização: <span id="last-updated-time"></span></div>
     </footer>
 
     <script>
@@ -328,9 +341,22 @@
                 console.error('Erro ao carregar dashboard:', err);
             }
         }
+
+        // Last updated timestamp
+        function updateTimestamp() {
+            const now = new Date();
+            const options = { 
+                day: '2-digit', month: '2-digit', year: 'numeric',
+                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                timeZone: 'America/Sao_Paulo'
+            };
+            document.getElementById('last-updated-time').textContent = now.toLocaleString('pt-BR', options);
+        }
+
         loadDashboard();
-        // Atualiza a cada 30 segundos
+        updateTimestamp();
         setInterval(loadDashboard, 30000);
+        setInterval(updateTimestamp, 1000);
     </script>
 </body>
 </html>
