@@ -1,6 +1,12 @@
-# 🚀 AstraCloud — Módulo Cloud & DevOps
+AstraLab — Secure DevOps Tools & Cloud Computing - Global Solutions 4ESR
 
-**AstraLab** — Plataforma de Coleta Inteligente de Amostras Espaciais
+**AstraCloud** — Plataforma de Coleta Inteligente de Amostras Espaciais
+
+## Integrantes
+
+- Aline Fernandes Zeppelini — RM: 97966
+- Camilly Breitbach Ishida — RM: 551474
+- Julia Leite Galvão — RM: 550201
 
 ## Sobre
 
@@ -34,11 +40,8 @@ GitHub (código) → GitHub Actions (CI/CD) → Azure App Service (aplicação)
 
 Deploy automático via GitHub Actions a cada push na branch `main`.
 
-## Equipe
 
-- Aline Fernandes Zeppelini — RM: 97966
-- Camilly Breitbach Ishida — RM: 551474
-- Julia Leite Galvão — RM: 550201
+
 
 ## Disciplina
 
