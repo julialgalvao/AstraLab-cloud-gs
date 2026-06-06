@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AstraCloud — Controle de Missão</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #0a0e1a;
+            color: #e0e6f0;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #0f1629 0%, #1a1f3a 100%);
+            border-bottom: 1px solid #2a3050;
+            padding: 2rem;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        .header .slogan {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+
+        /* Seção Problema */
+        .section {
+            background: #111827;
+            border: 1px solid #1f2937;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        .section h2 {
+            color: #60a5fa;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+        .section p {
+            color: #cbd5e1;
+            line-height: 1.7;
+        }
+
+        /* ODS */
+        .ods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .ods-card {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1.2rem;
+            border-left: 4px solid;
+        }
+        .ods-card.ods9 { border-color: #f97316; }
+        .ods-card.ods11 { border-color: #f59e0b; }
+        .ods-card.ods13 { border-color: #22c55e; }
+        .ods-card h3 { margin-bottom: 0.5rem; font-size: 1rem; }
+        .ods-card p { font-size: 0.9rem; color: #94a3b8; }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .metric-card {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .metric-card .value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #60a5fa;
+        }
+        .metric-card .label {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+        }
+        .metric-card.critical .value { color: #ef4444; }
+        .metric-card.success .value { color: #22c55e; }
+        .metric-card.warning .value { color: #f59e0b; }
+
+        /* Arquitetura */
+        .arch-flow {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+        .arch-step {
+            background: #1e293b;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 0.8rem 1.2rem;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+        .arch-arrow { color: #60a5fa; font-size: 1.2rem; }
+
+        /* Equipe */
+        .team-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        .team-member {
+            background: #1e293b;
+            border-radius: 8px;
+            padding: 1rem 1.5rem;
+        }
+        .team-member .name { font-weight: 600; }
+        .team-member .rm { color: #94a3b8; font-size: 0.85rem; }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: #64748b;
+            font-size: 0.85rem;
+            border-top: 1px solid #1f2937;
+            margin-top: 2rem;
+        }
+
+        /* Status indicator */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #064e3b;
+            color: #6ee7b7;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #6ee7b7;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🚀 AstraCloud</h1>
+        <p class="slogan">Inteligência orbital para decisões científicas em ambientes extremos</p>
+        <div class="status-badge">
+            <span class="status-dot"></span>
+            Missão Ativa — AstraLab-01
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Identidade do Produto -->
+        <section class="section">
+            <h2>🛰️ Sobre o AstraLab</h2>
+            <p>
+                O <strong>AstraLab</strong> é uma plataforma integrada para simulação de operações espaciais
+                de coleta, triagem e análise de amostras em ambientes extremos como Lua, Marte e asteroides.
+                O módulo <strong>AstraCloud</strong> é a camada de infraestrutura em nuvem que hospeda o
+                painel de controle da missão, APIs de consulta e sistema de monitoramento operacional.
+            </p>
+            <p style="margin-top: 1rem;">
+                <strong>Propósito:</strong> Coleta inteligente de amostras espaciais — cada amostra coletada
+                pode mudar uma missão. O AstraLab ajuda a escolher a certa.
+            </p>
+        </section>
+
+        <!-- Problema Espacial -->
+        <section class="section">
+            <h2>⚠️ O Problema Espacial</h2>
+            <p>
+                Em missões espaciais, cada decisão operacional tem alto custo. Um robô explorador possui
+                recursos limitados: bateria, tempo de missão, capacidade de armazenamento e comunicação
+                com a base. A coleta de uma amostra pouco relevante pode desperdiçar energia, ocupar
+                espaço e atrasar a análise de materiais mais importantes.
+            </p>
+            <p style="margin-top: 1rem;">
+                <strong>Desafio central:</strong> Como priorizar, coletar e analisar amostras espaciais
+                de forma inteligente, usando software para reduzir riscos e aumentar a eficiência
+                científica da missão?
+            </p>
+        </section>
+
+        <!-- ODS -->
+        <section class="section">
+            <h2>🌍 Conexão com ODS</h2>
+            <div class="ods-grid">
+                <div class="ods-card ods9">
+                    <h3>ODS 9 — Indústria, Inovação e Infraestrutura</h3>
+                    <p>Desenvolvimento de infraestrutura tecnológica para exploração espacial,
+                    promovendo inovação em robótica, IA e computação em nuvem aplicadas a ambientes extremos.</p>
+                </div>
+                <div class="ods-card ods11">
+                    <h3>ODS 11 — Cidades e Comunidades Sustentáveis</h3>
+                    <p>Tecnologias de monitoramento remoto e análise de dados desenvolvidas para o espaço
+                    podem ser adaptadas para gestão urbana, resposta a desastres e inspeção de infraestrutura.</p>
+                </div>
+                <div class="ods-card ods13">
+                    <h3>ODS 13 — Ação Contra a Mudança Global do Clima</h3>
+                    <p>A coleta e análise de amostras em ambientes extremos contribui para pesquisas
+                    climáticas, monitoramento ambiental e compreensão de fenômenos planetários.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard de Missão -->
+        <section class="section">
+            <h2>📊 Painel de Controle da Missão</h2>
+            <div class="dashboard-grid" id="dashboard">
+                <div class="metric-card">
+                    <div class="value" id="samples-collected">--</div>
+                    <div class="label">Amostras Coletadas</div>
+                </div>
+                <div class="metric-card warning">
+                    <div class="value" id="samples-pending">--</div>
+                    <div class="label">Amostras Pendentes</div>
+                </div>
+                <div class="metric-card critical">
+                    <div class="value" id="priority-critical">--</div>
+                    <div class="label">Prioridade Crítica</div>
+                </div>
+                <div class="metric-card success">
+                    <div class="value" id="battery-level">--%</div>
+                    <div class="label">Nível de Bateria</div>
+                </div>
+                <div class="metric-card">
+                    <div class="value" id="radiation-avg">--</div>
+                    <div class="label">Radiação Média (mSv)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="value" id="regions-explored">--</div>
+                    <div class="label">Regiões Exploradas</div>
+                </div>
+                <div class="metric-card success">
+                    <div class="value" id="uptime">--h</div>
+                    <div class="label">Uptime da Missão</div>
+                </div>
+                <div class="metric-card">
+                    <div class="value" id="success-rate">--%</div>
+                    <div class="label">Taxa de Sucesso</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Arquitetura -->
+        <section class="section">
+            <h2>🏗️ Arquitetura do Sistema</h2>
+            <div class="arch-flow">
+                <div class="arch-step">📡 Dados da Missão</div>
+                <span class="arch-arrow">→</span>
+                <div class="arch-step">👁️ AstraVision<br><small>Classificação Visual</small></div>
+                <span class="arch-arrow">→</span>
+                <div class="arch-step">🧠 AstraPredict<br><small>Prioridade ML</small></div>
+                <span class="arch-arrow">→</span>
+                <div class="arch-step">💾 AstraData<br><small>Pipeline ETL</small></div>
+                <span class="arch-arrow">→</span>
+                <div class="arch-step">🤖 AstraGrip<br><small>Coleta Robótica</small></div>
+                <span class="arch-arrow">→</span>
+                <div class="arch-step">⚡ AstraBot<br><small>Alertas RPA</small></div>
+                <span class="arch-arrow">→</span>
+                <div class="arch-step">☁️ AstraCloud<br><small>Dashboard & API</small></div>
+            </div>
+        </section>
+
+        <!-- Equipe -->
+        <section class="section">
+            <h2>👥 Equipe</h2>
+            <div class="team-list">
+                <div class="team-member">
+                    <div class="name">Julia Galvão</div>
+                    <div class="rm">RM: XXXXX</div>
+                </div>
+                <!-- Adicione mais integrantes aqui -->
+            </div>
+        </section>
+    </div>
+
+    <footer class="footer">
+        AstraCloud · Módulo Cloud & DevOps · AstraLab © 2026<br>
+        FIAP — Global Solution — Engenharia de Software 4º Ano<br>
+        Hospedado no Microsoft Azure App Service
+    </footer>
+
+    <script>
+        // Carrega dados da API
+        async function loadDashboard() {
+            try {
+                const res = await fetch('/api/mission-status');
+                const data = await res.json();
+                document.getElementById('samples-collected').textContent = data.samples_collected;
+                document.getElementById('samples-pending').textContent = data.samples_pending;
+                document.getElementById('priority-critical').textContent = data.priority_critical;
+                document.getElementById('battery-level').textContent = data.battery_level + '%';
+                document.getElementById('radiation-avg').textContent = data.radiation_avg;
+                document.getElementById('regions-explored').textContent = data.regions_explored;
+                document.getElementById('uptime').textContent = data.uptime_hours + 'h';
+
+                const samplesRes = await fetch('/api/samples');
+                const samplesData = await samplesRes.json();
+                document.getElementById('success-rate').textContent = Math.round(samplesData.success_rate * 100) + '%';
+            } catch (err) {
+                console.error('Erro ao carregar dashboard:', err);
+            }
+        }
+        loadDashboard();
+        // Atualiza a cada 30 segundos
+        setInterval(loadDashboard, 30000);
+    </script>
+</body>
+</html>
