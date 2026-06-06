@@ -26,9 +26,11 @@ GitHub (código) → GitHub Actions (CI/CD) → Azure App Service (aplicação)
 | Rota | Descrição |
 |------|-----------|
 | `/` | Landing page com dashboard da missão |
-| `/api/mission-status` | Status atual da missão |
-| `/api/samples` | Dados das amostras coletadas |
-| `/health` | Health check |
+| `/api/mission-status` | Status operacional completo da missão ativa |
+| `/api/samples` | Dados agregados das amostras por tipo e prioridade |
+| `/api/regions` | Regiões exploradas com status e radiação |
+| `/api/alerts` | Alertas operacionais ativos |
+| `/health` | Health check para monitoramento |
 
 ## Deploy
 

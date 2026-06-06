@@ -3,248 +3,443 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AstraCloud — Controle de Missão</title>
+    <title>AstraCloud — Controle de Missão AstraLab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #ffffff;
+            --bg-dark: #0f172a;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --accent: #2563eb;
+            --accent-light: #dbeafe;
+            --accent-warm: #f59e0b;
+            --accent-warm-light: #fef3c7;
+            --border: #e2e8f0;
+            --success: #059669;
+            --danger: #dc2626;
+            --warning: #d97706;
+        }
+
         body {
-            font-family: 'Segoe UI', system-ui, sans-serif;
-            background: #0a0e1a;
-            color: #e0e6f0;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
             min-height: 100vh;
+            line-height: 1.6;
         }
-        .header {
-            background: linear-gradient(135deg, #0f1629 0%, #1a1f3a 100%);
-            border-bottom: 1px solid #2a3050;
-            padding: 2.5rem 2rem;
-            text-align: center;
-        }
-        .header h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(90deg, #60a5fa, #a78bfa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 0.5rem;
-        }
-        .header .slogan {
-            color: #94a3b8;
-            font-size: 1.05rem;
-            font-style: italic;
-        }
-        .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
 
-        .section {
-            background: #111827;
-            border: 1px solid #1f2937;
-            border-radius: 12px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+        /* Hero */
+        .hero {
+            background: var(--bg-dark);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        .section h2 {
-            color: #60a5fa;
-            margin-bottom: 1rem;
-            font-size: 1.3rem;
-            font-weight: 600;
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
         }
-        .section p {
+        .hero-content { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.02em;
+        }
+        .hero .tagline {
+            font-size: 1.15rem;
             color: #cbd5e1;
-            line-height: 1.7;
+            font-weight: 300;
+            margin-bottom: 1.5rem;
         }
-
-        /* ODS */
-        .ods-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .ods-card {
-            background: #1e293b;
-            border-radius: 8px;
-            padding: 1.2rem;
-            border-left: 4px solid;
-        }
-        .ods-card.ods9 { border-color: #f97316; }
-        .ods-card.ods11 { border-color: #f59e0b; }
-        .ods-card.ods13 { border-color: #22c55e; }
-        .ods-card h3 { margin-bottom: 0.5rem; font-size: 1rem; }
-        .ods-card p { font-size: 0.9rem; color: #94a3b8; }
-
-        /* Dashboard */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .metric-card {
-            background: #1e293b;
-            border-radius: 8px;
-            padding: 1.5rem;
-            text-align: center;
-        }
-        .metric-card .value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #60a5fa;
-        }
-        .metric-card .label {
-            color: #94a3b8;
-            font-size: 0.85rem;
-            margin-top: 0.3rem;
-        }
-        .metric-card.critical .value { color: #ef4444; }
-        .metric-card.success .value { color: #22c55e; }
-        .metric-card.warning .value { color: #f59e0b; }
-
-        /* Arquitetura */
-        .arch-flow {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            align-items: center;
-            justify-content: center;
-            margin-top: 1rem;
-        }
-        .arch-step {
-            background: #1e293b;
-            border: 1px solid #374151;
-            border-radius: 8px;
-            padding: 0.8rem 1.2rem;
-            font-size: 0.85rem;
-            text-align: center;
-        }
-        .arch-arrow { color: #60a5fa; font-size: 1.2rem; }
-
-        /* Equipe */
-        .team-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        .team-member {
-            background: #1e293b;
-            border-radius: 8px;
-            padding: 1rem 1.5rem;
-        }
-        .team-member .name { font-weight: 600; }
-        .team-member .rm { color: #94a3b8; font-size: 0.85rem; }
-
-        /* Footer */
-        .footer {
-            text-align: center;
-            padding: 2rem;
-            color: #64748b;
-            font-size: 0.85rem;
-            border-top: 1px solid #1f2937;
-            margin-top: 2rem;
-        }
-        .footer .last-updated {
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-            color: #475569;
-        }
-
-        /* Status indicator */
-        .status-badge {
+        .hero .mission-badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
-            background: #064e3b;
+            gap: 0.5rem;
+            background: rgba(5, 150, 105, 0.15);
+            border: 1px solid rgba(5, 150, 105, 0.3);
             color: #6ee7b7;
-            padding: 0.3rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            margin-top: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 24px;
+            font-size: 0.85rem;
+            font-weight: 500;
         }
-        .status-dot {
-            width: 8px;
-            height: 8px;
+        .mission-badge .dot {
+            width: 8px; height: 8px;
             background: #6ee7b7;
             border-radius: 50%;
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Navigation */
+        .nav {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            padding: 0.75rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+        }
+        .nav a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.5rem 0;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .nav a:hover { color: var(--accent); border-color: var(--accent); }
+
+        /* Container */
+        .container { max-width: 1200px; margin: 0 auto; padding: 3rem 2rem; }
+
+        /* Sections */
+        .section { margin-bottom: 4rem; }
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        .section h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+        .section p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 720px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.75rem;
+        }
+
+        /* Intro grid */
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        @media (max-width: 768px) { .intro-grid { grid-template-columns: 1fr; } }
+        .intro-grid .card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        .intro-grid .card p { font-size: 0.9rem; color: var(--text-secondary); }
+
+        /* ODS */
+        .ods-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .ods-card {
+            border-left: 4px solid;
+            padding-left: 1.25rem;
+        }
+        .ods-card.ods9 { border-color: #f97316; }
+        .ods-card.ods11 { border-color: #eab308; }
+        .ods-card.ods13 { border-color: #22c55e; }
+        .ods-card h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .ods-card p { font-size: 0.85rem; color: var(--text-muted); }
+
+        /* Dashboard */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .metric-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+        .metric-card .value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .metric-card .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+        .metric-card.critical .value { color: var(--danger); }
+        .metric-card.success .value { color: var(--success); }
+        .metric-card.warning .value { color: var(--warning); }
+
+        /* Modules */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .module-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.5rem;
+        }
+        .module-card .module-name {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 0.25rem;
+        }
+        .module-card .module-role {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .module-card p { font-size: 0.9rem; color: var(--text-secondary); }
+
+        /* API Section */
+        .api-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+        }
+        .api-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border);
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
+        .api-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+        .api-table code {
+            background: var(--accent-light);
+            color: var(--accent);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        .api-table .method {
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Tech Stack */
+        .tech-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .tech-tag {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        /* Team */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .team-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 1.25rem;
+        }
+        .team-card .name { font-weight: 600; font-size: 0.95rem; }
+        .team-card .rm { color: var(--text-muted); font-size: 0.82rem; margin-top: 0.15rem; }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-dark);
+            color: #94a3b8;
+            padding: 3rem 2rem;
+            text-align: center;
+            font-size: 0.85rem;
+            line-height: 1.8;
+        }
+        .footer strong { color: #e2e8f0; }
+        .footer .last-updated {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            color: #64748b;
         }
     </style>
 </head>
 <body>
-    <header class="header">
-        <h1>🚀 AstraCloud</h1>
-        <p class="slogan">Inteligência orbital para decisões científicas em ambientes extremos</p>
-        <div class="status-badge">
-            <span class="status-dot"></span>
-            Missão Ativa — AstraLab-01
+    <header class="hero">
+        <div class="hero-content">
+            <h1>AstraCloud</h1>
+            <p class="tagline">Módulo de infraestrutura em nuvem da plataforma AstraLab.<br>
+            Controle de missão, monitoramento e APIs para coleta inteligente de amostras espaciais.</p>
+            <div class="mission-badge">
+                <span class="dot"></span>
+                Missão AstraLab-01 em andamento
+            </div>
         </div>
     </header>
 
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#sobre">Sobre</a>
+            <a href="#problema">Problema</a>
+            <a href="#ods">ODS</a>
+            <a href="#dashboard">Dashboard</a>
+            <a href="#modulos">Módulos</a>
+            <a href="#api">API</a>
+            <a href="#stack">Stack</a>
+            <a href="#equipe">Equipe</a>
+        </div>
+    </nav>
+
     <div class="container">
-        <!-- Identidade do Produto -->
-        <section class="section">
-            <h2>Sobre o AstraLab</h2>
+        <!-- Sobre -->
+        <section class="section" id="sobre">
+            <div class="section-label">Visão Geral</div>
+            <h2>O que é o AstraLab?</h2>
             <p>
-                O <strong>AstraLab</strong> é uma plataforma integrada para simulação de operações espaciais
-                de coleta, triagem e análise de amostras em ambientes extremos como Lua, Marte e asteroides.
-                O módulo <strong>AstraCloud</strong> é a camada de infraestrutura em nuvem que hospeda o
-                painel de controle da missão, APIs de consulta e sistema de monitoramento operacional.
+                O AstraLab simula uma operação espacial completa de coleta, triagem e análise de amostras
+                em ambientes extremos. Pense em Lua, Marte, asteroides — ambientes onde cada decisão do 
+                robô explorador custa energia, tempo e espaço de armazenamento.
             </p>
-            <p style="margin-top: 1rem;">
-                <strong>Propósito:</strong> Coleta inteligente de amostras espaciais — cada amostra coletada
-                pode mudar uma missão. O AstraLab ajuda a escolher a certa.
-            </p>
-        </section>
-
-        <!-- Problema Espacial -->
-        <section class="section">
-            <h2>O Problema Espacial</h2>
-            <p>
-                Em missões espaciais, cada decisão operacional tem alto custo. Um robô explorador possui
-                recursos limitados: bateria, tempo de missão, capacidade de armazenamento e comunicação
-                com a base. A coleta de uma amostra pouco relevante pode desperdiçar energia, ocupar
-                espaço e atrasar a análise de materiais mais importantes.
-            </p>
-            <p style="margin-top: 1rem;">
-                <strong>Desafio central:</strong> Como priorizar, coletar e analisar amostras espaciais
-                de forma inteligente, usando software para reduzir riscos e aumentar a eficiência
-                científica da missão?
-            </p>
-        </section>
-
-        <!-- ODS -->
-        <section class="section">
-            <h2>Conexão com ODS</h2>
-            <div class="ods-grid">
-                <div class="ods-card ods9">
-                    <h3>ODS 9 — Indústria, Inovação e Infraestrutura</h3>
-                    <p>Desenvolvimento de infraestrutura tecnológica para exploração espacial,
-                    promovendo inovação em robótica, IA e computação em nuvem aplicadas a ambientes extremos.</p>
+            <div class="intro-grid">
+                <div class="card">
+                    <h3>O que faz</h3>
+                    <p>Combina robótica, inteligência artificial, visão computacional, engenharia de dados 
+                    e automação para apoiar decisões em missões espaciais simuladas.</p>
                 </div>
-                <div class="ods-card ods11">
-                    <h3>ODS 11 — Cidades e Comunidades Sustentáveis</h3>
-                    <p>Tecnologias de monitoramento remoto e análise de dados desenvolvidas para o espaço
-                    podem ser adaptadas para gestão urbana, resposta a desastres e inspeção de infraestrutura.</p>
+                <div class="card">
+                    <h3>Para quem</h3>
+                    <p>Equipes de operação de missões, centros de pesquisa, universidades e laboratórios 
+                    educacionais que trabalham com exploração espacial e robótica.</p>
                 </div>
-                <div class="ods-card ods13">
-                    <h3>ODS 13 — Ação Contra a Mudança Global do Clima</h3>
-                    <p>A coleta e análise de amostras em ambientes extremos contribui para pesquisas
-                    climáticas, monitoramento ambiental e compreensão de fenômenos planetários.</p>
+                <div class="card">
+                    <h3>Por que importa</h3>
+                    <p>Cada amostra coletada pode mudar uma missão. O AstraLab ajuda a escolher a certa,
+                    reduzindo desperdício de recursos limitados em ambientes hostis.</p>
+                </div>
+                <div class="card">
+                    <h3>AstraCloud</h3>
+                    <p>Este módulo é a camada de nuvem — hospeda o painel de controle, APIs de consulta,
+                    sistema de alertas e toda a infraestrutura DevOps do projeto.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Dashboard de Missão -->
-        <section class="section">
-            <h2>Painel de Controle da Missão</h2>
-            <div class="dashboard-grid" id="dashboard">
+        <!-- Problema -->
+        <section class="section" id="problema">
+            <div class="section-label">Contexto</div>
+            <h2>O problema que resolvemos</h2>
+            <p>
+                Em missões espaciais reais, um robô explorador tem bateria limitada, pouco espaço de 
+                armazenamento e janelas curtas de comunicação com a base. Coletar uma amostra irrelevante 
+                significa desperdiçar recursos que não voltam — energia gasta, espaço ocupado, tempo perdido.
+            </p>
+            <p style="margin-top: 1rem;">
+                O desafio é decidir <strong>o que coletar</strong>, <strong>quando coletar</strong> e 
+                <strong>como priorizar</strong> amostras usando software inteligente. É isso que o AstraLab 
+                resolve: transforma dados brutos em decisões operacionais que maximizam o valor científico 
+                de cada missão.
+            </p>
+        </section>
+
+        <!-- ODS -->
+        <section class="section" id="ods">
+            <div class="section-label">Impacto</div>
+            <h2>Conexão com os ODS da ONU</h2>
+            <p>O projeto se conecta a três Objetivos de Desenvolvimento Sustentável:</p>
+            <div class="ods-grid">
+                <div class="ods-card ods9">
+                    <h3>ODS 9 — Indústria, Inovação e Infraestrutura</h3>
+                    <p>Infraestrutura tecnológica para exploração espacial: robótica, IA e computação em nuvem aplicadas a ambientes extremos.</p>
+                </div>
+                <div class="ods-card ods11">
+                    <h3>ODS 11 — Cidades e Comunidades Sustentáveis</h3>
+                    <p>Tecnologias de monitoramento remoto adaptáveis para gestão urbana, resposta a desastres e inspeção de infraestrutura terrestre.</p>
+                </div>
+                <div class="ods-card ods13">
+                    <h3>ODS 13 — Ação Contra a Mudança Global do Clima</h3>
+                    <p>Coleta e análise de amostras contribui para pesquisas climáticas, monitoramento ambiental e compreensão de fenômenos planetários.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard -->
+        <section class="section" id="dashboard">
+            <div class="section-label">Tempo Real</div>
+            <h2>Status da Missão</h2>
+            <p>Dados operacionais atualizados da missão AstraLab-01.</p>
+            <div class="dashboard-grid">
                 <div class="metric-card">
                     <div class="value" id="samples-collected">--</div>
                     <div class="label">Amostras Coletadas</div>
                 </div>
                 <div class="metric-card warning">
                     <div class="value" id="samples-pending">--</div>
-                    <div class="label">Amostras Pendentes</div>
+                    <div class="label">Pendentes</div>
                 </div>
                 <div class="metric-card critical">
                     <div class="value" id="priority-critical">--</div>
@@ -252,19 +447,19 @@
                 </div>
                 <div class="metric-card success">
                     <div class="value" id="battery-level">--%</div>
-                    <div class="label">Nível de Bateria</div>
+                    <div class="label">Bateria</div>
                 </div>
                 <div class="metric-card">
                     <div class="value" id="radiation-avg">--</div>
-                    <div class="label">Radiação Média (mSv)</div>
+                    <div class="label">Radiação (mSv)</div>
                 </div>
                 <div class="metric-card">
                     <div class="value" id="regions-explored">--</div>
-                    <div class="label">Regiões Exploradas</div>
+                    <div class="label">Regiões</div>
                 </div>
                 <div class="metric-card success">
                     <div class="value" id="uptime">--h</div>
-                    <div class="label">Uptime da Missão</div>
+                    <div class="label">Uptime</div>
                 </div>
                 <div class="metric-card">
                     <div class="value" id="success-rate">--%</div>
@@ -273,55 +468,129 @@
             </div>
         </section>
 
-        <!-- Arquitetura -->
-        <section class="section">
-            <h2>Arquitetura do Sistema</h2>
-            <div class="arch-flow">
-                <div class="arch-step">Dados da Missão</div>
-                <span class="arch-arrow">→</span>
-                <div class="arch-step">AstraVision<br><small>Classificação Visual</small></div>
-                <span class="arch-arrow">→</span>
-                <div class="arch-step">AstraPredict<br><small>Prioridade ML</small></div>
-                <span class="arch-arrow">→</span>
-                <div class="arch-step">AstraData<br><small>Pipeline ETL</small></div>
-                <span class="arch-arrow">→</span>
-                <div class="arch-step">AstraGrip<br><small>Coleta Robótica</small></div>
-                <span class="arch-arrow">→</span>
-                <div class="arch-step">AstraBot<br><small>Alertas RPA</small></div>
-                <span class="arch-arrow">→</span>
-                <div class="arch-step">AstraCloud<br><small>Dashboard & API</small></div>
+        <!-- Módulos -->
+        <section class="section" id="modulos">
+            <div class="section-label">Arquitetura</div>
+            <h2>Módulos do Sistema</h2>
+            <p>O AstraLab é dividido em 6 módulos especializados que trabalham juntos:</p>
+            <div class="modules-grid">
+                <div class="module-card">
+                    <div class="module-name">AstraGrip</div>
+                    <div class="module-role">Robótica</div>
+                    <p>Braço robótico que simula a coleta física de amostras com Arduino e servomotores. Controlado por comandos seriais.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-name">AstraVision</div>
+                    <div class="module-role">Visão Computacional</div>
+                    <p>Classifica imagens de amostras com redes neurais convolucionais treinadas do zero. Identifica tipo e condição do material.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-name">AstraPredict</div>
+                    <div class="module-role">Machine Learning</div>
+                    <p>Modelo preditivo que calcula a prioridade de coleta de cada amostra usando variáveis ambientais e operacionais.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-name">AstraData</div>
+                    <div class="module-role">Engenharia de Dados</div>
+                    <p>Pipeline automatizado com Apache Airflow para ingestão, transformação e análise de dados da missão em Oracle Database.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-name">AstraBot</div>
+                    <div class="module-role">RPA</div>
+                    <p>Bot de automação que monitora condições críticas, envia alertas operacionais e atualiza registros de controle.</p>
+                </div>
+                <div class="module-card">
+                    <div class="module-name">AstraCloud</div>
+                    <div class="module-role">Cloud & DevOps</div>
+                    <p>Infraestrutura em nuvem no Azure com CI/CD, monitoramento, segurança e este dashboard que você está vendo agora.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- API -->
+        <section class="section" id="api">
+            <div class="section-label">Integração</div>
+            <h2>API Endpoints</h2>
+            <p>Endpoints REST disponíveis para consulta de dados da missão.</p>
+            <table class="api-table">
+                <thead>
+                    <tr>
+                        <th>Método</th>
+                        <th>Endpoint</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="method">GET</span></td>
+                        <td><code>/api/mission-status</code></td>
+                        <td>Retorna status operacional completo da missão ativa</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method">GET</span></td>
+                        <td><code>/api/samples</code></td>
+                        <td>Dados agregados das amostras coletadas por tipo e prioridade</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method">GET</span></td>
+                        <td><code>/health</code></td>
+                        <td>Health check para monitoramento e Application Insights</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Stack -->
+        <section class="section" id="stack">
+            <div class="section-label">Tecnologia</div>
+            <h2>Stack Utilizada</h2>
+            <p>Tecnologias que sustentam o módulo AstraCloud:</p>
+            <div class="tech-grid">
+                <span class="tech-tag">Python 3.11</span>
+                <span class="tech-tag">Flask</span>
+                <span class="tech-tag">Gunicorn</span>
+                <span class="tech-tag">Azure App Service</span>
+                <span class="tech-tag">Azure Key Vault</span>
+                <span class="tech-tag">Application Insights</span>
+                <span class="tech-tag">GitHub Actions</span>
+                <span class="tech-tag">GitHub Secrets</span>
+                <span class="tech-tag">CI/CD Pipeline</span>
+                <span class="tech-tag">Linux</span>
+                <span class="tech-tag">HTML/CSS/JS</span>
+                <span class="tech-tag">REST API</span>
             </div>
         </section>
 
         <!-- Equipe -->
-        <section class="section">
+        <section class="section" id="equipe">
+            <div class="section-label">Créditos</div>
             <h2>Equipe</h2>
-            <div class="team-list">
-                <div class="team-member">
+            <p>FIAP — Engenharia de Software, 4º Ano — Global Solution 2026</p>
+            <div class="team-grid">
+                <div class="team-card">
                     <div class="name">Aline Fernandes Zeppelini</div>
-                    <div class="rm">RM: 97966</div>
+                    <div class="rm">RM 97966</div>
                 </div>
-                <div class="team-member">
+                <div class="team-card">
                     <div class="name">Camilly Breitbach Ishida</div>
-                    <div class="rm">RM: 551474</div>
+                    <div class="rm">RM 551474</div>
                 </div>
-                <div class="team-member">
+                <div class="team-card">
                     <div class="name">Julia Leite Galvão</div>
-                    <div class="rm">RM: 550201</div>
+                    <div class="rm">RM 550201</div>
                 </div>
             </div>
         </section>
     </div>
 
     <footer class="footer">
-        AstraCloud · Módulo Cloud & DevOps · AstraLab © 2026<br>
-        FIAP — Global Solution — Engenharia de Software 4º Ano<br>
-        Hospedado no Microsoft Azure App Service
+        <strong>AstraCloud</strong> · Módulo Cloud & DevOps · AstraLab<br>
+        FIAP — Global Solution 2026 — Engenharia de Software<br>
+        Hospedado no Microsoft Azure App Service · East US 2
         <div class="last-updated">Última atualização: <span id="last-updated-time"></span></div>
     </footer>
 
     <script>
-        // Carrega dados da API
         async function loadDashboard() {
             try {
                 const res = await fetch('/api/mission-status');
@@ -342,21 +611,19 @@
             }
         }
 
-        // Last updated timestamp
         function updateTimestamp() {
             const now = new Date();
-            const options = { 
+            document.getElementById('last-updated-time').textContent = now.toLocaleString('pt-BR', {
                 day: '2-digit', month: '2-digit', year: 'numeric',
-                hour: '2-digit', minute: '2-digit', second: '2-digit',
+                hour: '2-digit', minute: '2-digit',
                 timeZone: 'America/Sao_Paulo'
-            };
-            document.getElementById('last-updated-time').textContent = now.toLocaleString('pt-BR', options);
+            });
         }
 
         loadDashboard();
         updateTimestamp();
         setInterval(loadDashboard, 30000);
-        setInterval(updateTimestamp, 1000);
+        setInterval(updateTimestamp, 60000);
     </script>
 </body>
 </html>
